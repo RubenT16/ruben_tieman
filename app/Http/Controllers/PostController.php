@@ -15,8 +15,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $notes = Post::where('user_id', Auth::user()->id)->latest('updated_at')->paginate(1);
-        return view('posts.index')->with('posts', $notes);
+        $posts = Post::where('user_id', Auth::user()->id)->latest('updated_at')->paginate(1);
+        return view('posts.index')->with('posts', $posts);
     
     }
 
@@ -38,7 +38,19 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:120',
+            'text' => 'required'
+        ]);
+        $post = new Post([              //nieuw object aan maken van Post model
+            'user_id' => Auth::id(),    //id van de huidige user in user_id zetten
+            'title' => $request->title, //title (request) in title zetten
+            'text' => $request->text    //text (request) in text zetten
+        ]);
+        $post->save();                  //het object opslaan en dus de rij opslaan in de tabel
+        
+        return to_route('posts.index'); //redirect naar de route posts.index
+        
     }
 
     /**
@@ -49,7 +61,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('posts.show')->with('post', $post);
     }
 
     /**
@@ -60,7 +72,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit')->with('post', $post);
     }
 
     /**
@@ -72,7 +84,18 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:120',
+            'text' => 'required'
+        ]);
+    
+        $post->update([
+            'title' => $request->title,
+            'text' => $request->text
+        ]);
+    
+        return to_route('posts.show', $post);
+    
     }
 
     /**
