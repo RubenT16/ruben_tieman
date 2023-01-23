@@ -14,8 +14,12 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
-    }
+         $id = Auth::user()->id;    //of korter: Auth::id();
+         $notes = Note::where('user_id',$id)->get();
+         dd($notes);
+    }     
+     
+    
 
     /**
      * Show the form for creating a new resource.
