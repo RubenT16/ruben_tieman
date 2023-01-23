@@ -16,18 +16,13 @@
                 <strong>Updated at: </strong> {{ $post->updated_at->diffForHumans() }}
                 </p>
                 <a href="{{ route('posts.edit', $post) }}" class="btn-link ml-auto">Edit Post</a>
-                
-$request->validate([
-        'title' => 'required|max:120',
-        'text' => 'required'
-    ]);
 
-    $post>update([
-        'title' => $request->title,
-        'text' => $request->text
-    ]);
+    <form action="{{ route('posts.destroy', $post) }}" method="post">
+        @method('delete')
+        @csrf
+        <button type="submit" class="btn btn-danger ml-4" onclick="return confirm('Are you sure you wish to delete this post?')">Delete Post</button>
+    </form>
 
-    return to_route('posts.show', $post);
 
             </div>
 
