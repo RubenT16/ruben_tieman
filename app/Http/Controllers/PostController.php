@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $notes = Post::where('user_id', Auth::user()->id)->latest('updated_at')->get();
+        $notes = Post::where('user_id', Auth::user()->id)->latest('updated_at')->paginate(1);
         return view('posts.index')->with('posts', $notes);
     
     }
