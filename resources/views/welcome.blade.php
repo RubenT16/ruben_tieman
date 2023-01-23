@@ -37,6 +37,9 @@
                     @endauth
                 </div>
             @endif
+            <h1 class="text-5xl">
+    Blog
+</h1>
 
         </div>
     </body>
