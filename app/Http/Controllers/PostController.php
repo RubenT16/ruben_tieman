@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -14,12 +15,10 @@ class PostController extends Controller
      */
     public function index()
     {
-         $id = Auth::user()->id;    //of korter: Auth::id();
-         $notes = Note::where('user_id',$id)->get();
-         dd($notes);
-    }     
-     
+        $notes = Post::where('user_id', Auth::user()->id)->latest('updated_at')->get();
+        return view('posts.index')->with('posts', $notes);
     
+    }
 
     /**
      * Show the form for creating a new resource.
